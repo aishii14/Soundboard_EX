@@ -7,6 +7,8 @@ void setup()
 }
 
 int accidental= 0;
+int note = 0;
+int score = 1;
 
 struct Point
 {
@@ -16,14 +18,17 @@ struct Point
 
 Point Avatar = {1,1};
 
-void loop()
+Point memory[8] = {};
+int sharp[8] = {};
+
+void loop() //avatar coding and basic program rules
 {
   DrawPx (Avatar.x, Avatar.y, White);
   DisplaySlate();
   delay(100);
   DrawPx(Avatar.x, Avatar.y, Dark);
   
-  CheckButtonsPress();
+  CheckButtonsPress(); //button coding
   if (Button_Left)
   {
     Avatar.x--;
@@ -50,8 +55,12 @@ void loop()
     sound();
     accidental++;
   }
+  if (Button_B) // runs save function
+  {
+    save();
+  }
   
-  if (Avatar.x > 7)
+  if (Avatar.x > 7) //boundaries of cursor
   {
     Avatar.x = 7;
     
@@ -71,13 +80,20 @@ void loop()
     Avatar.y = 7;
  
   }
-  if (accidental == 2)
+  if (accidental == 2) //resets accidental
   {
     accidental = 0;
   }
+  
+  if (score > 128) // resets aux leds
+  {
+    play();
+    score = 1;
+  } 
 }
+  
 
-void indicator()
+void indicator() //flat and sharp detector
 {
   if (accidental == 0)
   {
@@ -93,7 +109,7 @@ void indicator()
   }
 }
 
-void sound()
+void sound() //plays sounds depending on x and y position of avatar
 {
   if (Avatar.x == 1)
   {
@@ -149,3 +165,31 @@ void sound()
     Serial.println(ToneA3);
   }
 }
+
+void save()
+{
+  memory[note] = Avatar; // save current location to array and change aux led
+  sharp[note] = accidental;
+  ClearSlate();
+  DisplaySlate();
+  delay(1000);
+  SetAuxLEDs(score);
+  score = score*2;
+  note++;
+}
+
+void play()
+{
+  for (note = 0; note < 6; note++)
+  {
+    Avatar = memory[note]; // set Avatar to saved position
+    accidental = sharp[note];
+    sound();
+    delay(25);
+  }
+  ClearSlate();
+  score = 0;
+  SetAuxLEDs(score);
+  note = 0;
+}
+    
