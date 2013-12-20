@@ -33,21 +33,25 @@ void loop() //avatar coding and basic program rules
   {
     Avatar.x--;
     accidental = 0;
+    ClearSlate();
   }
   if (Button_Right)
   {
     Avatar.x++;
     accidental = 0;
+    ClearSlate();
   }
   if (Button_Up)
   {
     Avatar.y++;
     accidental = 0;
+    ClearSlate();
   }
   if (Button_Down)
   {
     Avatar.y--;
     accidental = 0;
+    ClearSlate();
   }
   if (Button_A)
   {
@@ -58,6 +62,7 @@ void loop() //avatar coding and basic program rules
   if (Button_B) // runs save function
   {
     save();
+    accidental = 0;
   }
   
   if (Avatar.x > 7) //boundaries of cursor
@@ -109,11 +114,10 @@ void indicator() //flat and sharp detector
   }
 }
 
-void sound() //plays sounds depending on x and y position of avatar
+void sound() //plays sounds depending on x and y position of avatar and the accidental tag for sharps
 {
   if (Avatar.x == 1)
   {
-    accidental = 0,
     Tone_Start(129566 / ((Avatar.y + 1 ) * 2), 1000);
     delay(100);
     Serial.println(ToneB2);
@@ -135,40 +139,76 @@ void sound() //plays sounds depending on x and y position of avatar
   }
   if (Avatar.x == 3)
   {
-    Tone_Start(108970 / ((Avatar.y + 1 ) * 2), 1000 );
-    delay(100);
-    Serial.println(ToneD3);
+    if (accidental == 0)
+    {
+      Tone_Start(108970 / ((Avatar.y + 1 ) * 2), 1000 );
+      delay(100);
+      Serial.println(ToneD3);
+    }
+    if (accidental == 1)
+    {
+      Tone_Start(102854 / ((Avatar.y + 1 ) * 2),1000);
+      delay(100);
+      Serial.println(ToneDs3);
+    }
   }
   if (Avatar.x == 4)
   {
-    accidental = 0;
     Tone_Start(97082 / ((Avatar.y + 1 ) * 2), 1000);
     delay(100);
     Serial.println(ToneE3);
   }
   if (Avatar.x == 5)
   {
-    Tone_Start(91632 / ((Avatar.y + 1 ) * 2), 1000);
-    delay(100);
-    Serial.println(ToneF3);
+    if (accidental == 0)
+    {
+      Tone_Start(91632 / ((Avatar.y + 1 ) * 2), 1000);
+      delay(100);
+      Serial.println(ToneF3);
+    }
+    if (accidental == 1)
+    {
+      Tone_Start(86486 / ((Avatar.y + 1 ) * 2), 1000);
+      delay(100);
+      Serial.println(ToneFs3);
+    }
   }
   if (Avatar.x == 6)
   {
-    Tone_Start(81632/ ((Avatar.y + 1 ) * 2), 1000);
-    delay(100);
-    Serial.println(ToneG3);
+    if (accidental == 0)
+    {
+      Tone_Start(81632/ ((Avatar.y + 1 ) * 2), 1000);
+      delay(100);
+      Serial.println(ToneG3);
+    }
+    if (accidental == 1)
+    {
+      Tone_Start(77052/ ((Avatar.y + 1 ) * 2), 1000);
+      delay(100);
+      Serial.println(ToneGs3);
+    }
   }
   if (Avatar.x == 7)
   {
-    Tone_Start(72726/ ((Avatar.y + 1 ) * 2), 1000);
-    delay(100);
-    Serial.println(ToneA3);
+    if (accidental == 0)
+    {
+      Tone_Start(72726/ ((Avatar.y + 1 ) * 2), 1000);
+      delay(100);
+      Serial.println(ToneA3);
+    }
+    if (accidental == 1)
+    {
+      Tone_Start(68646/ ((Avatar.y + 1 ) * 2), 1000);
+      delay(100);
+      Serial.println(ToneAs3);
+    }
   }
 }
 
 void save()
 {
   memory[note] = Avatar; // save current location to array and change aux led
+  accidental++;
   sharp[note] = accidental;
   ClearSlate();
   DisplaySlate();
@@ -191,5 +231,6 @@ void play()
   score = 0;
   SetAuxLEDs(score);
   note = 0;
+  accidental = 0;
 }
     
