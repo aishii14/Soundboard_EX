@@ -57,7 +57,6 @@ void loop() //avatar coding and basic program rules
   {
     indicator();
     sound();
-    accidental++;
   }
   if (Button_B) // runs save function
   {
@@ -136,6 +135,7 @@ void sound() //plays sounds depending on x and y position of avatar and the acci
       delay(100);
       Serial.println(ToneC3);
     }
+    accidental++;
   }
   if (Avatar.x == 3)
   {
@@ -151,6 +151,7 @@ void sound() //plays sounds depending on x and y position of avatar and the acci
       delay(100);
       Serial.println(ToneDs3);
     }
+    accidental++;
   }
   if (Avatar.x == 4)
   {
@@ -172,6 +173,7 @@ void sound() //plays sounds depending on x and y position of avatar and the acci
       delay(100);
       Serial.println(ToneFs3);
     }
+    accidental++;
   }
   if (Avatar.x == 6)
   {
@@ -187,6 +189,7 @@ void sound() //plays sounds depending on x and y position of avatar and the acci
       delay(100);
       Serial.println(ToneGs3);
     }
+    accidental++;
   }
   if (Avatar.x == 7)
   {
@@ -202,6 +205,7 @@ void sound() //plays sounds depending on x and y position of avatar and the acci
       delay(100);
       Serial.println(ToneAs3);
     }
+    accidental++;
   }
 }
 
@@ -220,7 +224,7 @@ void save()
 
 void play()
 {
-  for (note = 0; note < 6; note++)
+  for (note = 0; note < 7; note++)
   {
     Avatar = memory[note]; // set Avatar to saved position
     accidental = sharp[note];
