@@ -6,14 +6,14 @@ void setup()
   Serial.begin(9600);
 }
 
-int accidental= 0;
-int note = 0;
-int score = 1;
+int accidental= 0; // tracks accidental (sharp)
+int note = 0;  // tracks number of notes stored (memory array)
+int score = 1; // tracks number of notes stored (Aux LED)
 
 struct Point
 {
-  int x;
-  int y;
+  int x; // x-position 
+  int y; // y-position
 };
 
 Point Avatar = {1,1};
@@ -22,7 +22,7 @@ Point memory[8] = {};
 int sharp[8] = {};
 
 void loop() //avatar coding and basic program rules
-{
+{ 
   DrawPx (Avatar.x, Avatar.y, White);
   DisplaySlate();
   delay(100);
@@ -33,25 +33,21 @@ void loop() //avatar coding and basic program rules
   {
     Avatar.x--;
     accidental = 0;
-    ClearSlate();
   }
   if (Button_Right)
   {
     Avatar.x++;
     accidental = 0;
-    ClearSlate();
   }
   if (Button_Up)
   {
     Avatar.y++;
     accidental = 0;
-    ClearSlate();
   }
   if (Button_Down)
   {
     Avatar.y--;
     accidental = 0;
-    ClearSlate();
   }
   if (Button_A)
   {
@@ -214,7 +210,7 @@ void save()
   memory[note] = Avatar; // save current location to array and change aux led
   accidental++;
   sharp[note] = accidental;
-  ClearSlate();
+  DrawPx(Avatar.x, Avatar.y, Dark);
   DisplaySlate();
   delay(1000);
   SetAuxLEDs(score);
